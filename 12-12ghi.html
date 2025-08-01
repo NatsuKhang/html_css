@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>App</title>
+  </head>
+  <body>
+    <main>
+      <button class="add-button" onclick="
+        changeMessage(1);
+      ">
+        Add
+      </button>
+
+      <button class="remove-button" onclick="
+        changeMessage(-1);
+      ">
+        Remove
+      </button>
+    </main>
+    <script>
+      let message=2;
+      let intervalID;
+      let presentNotify=false;
+      function changeMessage(amount){
+        message+=amount;
+        if (message<0) message=0;
+        changeTitle();
+      }
+
+      function changeTitle(){
+        if(message>0){
+          clearInterval(intervalID);
+          intervalID = setInterval(function(){
+            if(!presentNotify){
+              document.title=`(${message}) New messages`;
+              presentNotify=true;
+            }
+            else {
+              document.title=`App`;
+              presentNotify=false;
+            }
+          },1000)
+        }
+        else {
+          document.title=`App`;
+          presentNotify=false;
+          clearInterval(intervalID);
+        }
+      }
+      changeTitle();
+    </script>
+  </body>
+</html>

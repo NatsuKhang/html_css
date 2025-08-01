@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cart Quantity Project</title>
+	</head>
+
+	<body>
+		<div class="Page">
+			<button onclick="
+				changeCart(0);
+			">
+				Show quantity
+			</button>
+
+			<button onclick="
+				changeCart(1);
+			">
+				Add to Cart
+			</button>
+
+			<button onclick="
+				changeCart(2);
+			">
+				+2
+			</button>
+
+			<button onclick="
+				changeCart(3);
+			">
+				+3
+			</button>
+
+			<button onclick="
+				changeCart(4);
+			">
+				+4
+			</button>
+
+			<button onclick="
+				changeCart(5);
+				">
+				+5
+			</button>
+
+			<button onclick="
+				changeCart(-1);
+			">
+				Remove from cart
+			</button>
+
+			<button onclick="
+				changeCart(-2);
+			">
+				-2  
+			</button>
+
+			<button onclick="
+				changeCart(-3);
+			">
+				-3
+			</button>
+
+			<button onclick="
+				cartQuantity=0;
+				changeCart(0);
+			">
+				Reser Cart
+			</button>
+			<p class="cart-quantity"></p>
+			<p class="js-add"></p>
+		</div>
+
+		<script>
+			let cartQuantity=0;
+			let timeoutID;
+			let beingAdd=false;
+
+			const cartQuantityElement=document.querySelector('.cart-quantity');
+			cartQuantityElement.innerHTML=`Cart Quantity: ${cartQuantity}`;
+
+			function changeCart(amount){
+
+				if(cartQuantity+amount>10) {
+					cartQuantityElement.innerHTML='The cart is full';
+				}
+				else if (cartQuantity+amount<0){
+					cartQuantityElement.innerHTML='Not enough items in the cart';
+				}
+				else{
+					cartQuantity+=amount;
+					cartQuantityElement.innerHTML=`Cart Quantity: ${cartQuantity}`;
+					const pAddElement=document.querySelector('.js-add');
+					if(!beingAdd){
+						beingAdd=true;
+
+						pAddElement.innerHTML='Added';
+						timeoutID = setTimeout(function(){
+							pAddElement.innerHTML='';
+							beingAdd=false;
+						},2000)
+					}
+					else{
+						pAddElement.innerHTML='Added';
+						clearTimeout(timeoutID);
+						timeoutID = setTimeout(function(){
+							pAddElement.innerHTML='';
+							beingAdd=false;
+						},2000)
+					}
+				}
+			}
+
+		</script>
+	</body>
+</html>

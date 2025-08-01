@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>10 HTML-CSS-JS exercises 10gh</title>
+    <style>
+      .select-button{
+        background-color: rgb(230, 230, 230);
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        margin-right: 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .is-toggled{
+        background-color: black;
+        color: white;
+      }
+
+      .input-cost{
+        margin-top: 30px;
+        padding: 10px;
+        border-radius: 3px;
+        font-size: 15px;
+      }
+      .calculate-button{
+        background-color: green;
+        color: white;
+        font-size: 15px;
+        padding: 10px 10px;
+        border-radius: 3px;
+        border: none;
+        margin-bottom: 10px;
+      }
+      .error-total{
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div>
+        <button class="select-button js-select-button-01"
+        onclick="
+          selectButton('js-select-button-01');
+        ">
+          Gaming
+        </button>
+        
+        <button class="select-button js-select-button-02"
+        onclick="
+          selectButton('js-select-button-02');
+        ">
+          Music
+        </button>
+
+        <button class="select-button js-select-button-03"
+        onclick="
+          selectButton('js-select-button-03');
+        ">
+          Tech
+        </button>
+      </div>
+      
+      <div>
+        <input class="input-cost" type="text" placeholder="Cost of the order" onkeydown="
+          calculateOnKeyDown(event); 
+        ">
+        <button class="calculate-button" onclick="
+          calculateTotal();
+        ">
+          Calculate
+        </button>
+        <p class="total-cost"></p>
+      </div>
+      
+
+    </main>
+
+    <script>
+      function selectButton(select){
+        const newSelected=document.querySelector(`.${select}`);
+        if (!newSelected.classList.contains('is-toggled')){
+          delPreSelected();
+          newSelected.classList.add('is-toggled');
+        } else{
+          newSelected.classList.remove('is-toggled');
+        }
+      }
+
+      function delPreSelected(){
+        const preSelected=document.querySelector('.is-toggled');
+        if(preSelected) preSelected.classList.remove('is-toggled');
+      }
+
+      function calculateOnKeyDown(event){
+        if(event.key==='Enter'){
+          calculateTotal();
+        }
+      }
+
+      function calculateTotal(){
+        const input=document.querySelector('.input-cost');
+        let value=Number(input.value);
+        const notifi=document.querySelector('.total-cost');
+        if(value<0){
+          notifi.innerHTML="Error: cost cannot be less than $0";
+          notifi.classList.add('error-total');
+        }
+        else{
+          value += value<40?10:0;
+          value=Math.round(value*100);
+          let floatPart=value%100;
+          let intPart=(value-floatPart)/100;
+          notifi.innerHTML=`$${intPart}.${floatPart}`;
+        }
+      }
+      
+    </script>
+  </body>
+</html>
