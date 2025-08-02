@@ -1,3 +1,14 @@
+/*
+  using module to:
+  1. avoid NAMING CONFLICT from different files (not using <scripts> for all .js files)
+  2. don't have to worry about the ORDER of files
+
+  NOTE:
+  - need let import at the line 1 of file .js
+  - need using LIVE SERVER to load the import/export ?????????? WHY ???????? WHY NOT with opened normal. 
+*/
+import { cart } from "../data/cart";
+
 let productsHTML = '';
 
 products.forEach((product) => {
