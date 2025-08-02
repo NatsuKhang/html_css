@@ -4,10 +4,11 @@
   2. don't have to worry about the ORDER of files
 
   NOTE:
-  - need let import at the line 1 of file .js
+  - need let import-line at the top of file .js
   - need using LIVE SERVER to load the import/export ?????????? WHY ???????? WHY NOT with opened normal. 
 */
 import { cart } from "../data/cart";
+import { products } from "../data/products";
 
 let productsHTML = '';
 
