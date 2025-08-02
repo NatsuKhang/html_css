@@ -7,7 +7,7 @@
   - need let import-line at the top of file .js
   - need using LIVE SERVER to load the import/export ?????????? WHY ???????? WHY NOT with opened normal. 
 */
-import { cart } from "../data/cart";
+import { cart, addToCart } from "../data/cart";
 import { products } from "../data/products";
 
 let productsHTML = '';
@@ -70,52 +70,42 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 const addedTimeoutIds={};
 
+function notifyWhenAdded(productId){
+  const addedNotifyElement = document.querySelector(`.js-added-to-cart-${productId}`);
+  addedNotifyElement.classList.add('added-to-cart-visible');
+
+  const prevTimeoutId=addedTimeoutIds[productId];
+  if(prevTimeoutId){
+    clearTimeout(prevTimeoutId);
+  }
+
+  const timeoutId = setTimeout(() =>{
+    addedNotifyElement.classList.remove('added-to-cart-visible');
+  },2000);
+  
+  addedTimeoutIds[productId]=timeoutId;
+}
+
+function updateCartQuantity(){
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
+
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
       const {productId} = button.dataset;
 
-      let matchingItem;
+      notifyWhenAdded(productId);
 
-      const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+      addToCart(productId);
 
-      const addedNotifyElement = document.querySelector(`.js-added-to-cart-${productId}`);
-      addedNotifyElement.classList.add('added-to-cart-visible');
-
-      const prevTimeoutId=addedTimeoutIds[productId];
-      if(prevTimeoutId){
-        clearTimeout(prevTimeoutId);
-      }
-
-      const timeoutId = setTimeout(() =>{
-        addedNotifyElement.classList.remove('added-to-cart-visible');
-      },2000);
-      
-      addedTimeoutIds[productId]=timeoutId;
-
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-        }
-      });
-      
-
-      if (matchingItem) {
-        matchingItem.quantity += quantity;
-      } else {
-        cart.push({
-          productId,
-          quantity
-        });
-      }
-
-      let cartQuantity = 0;
-
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
+      updateCartQuantity();
     });
   });
