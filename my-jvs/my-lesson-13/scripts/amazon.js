@@ -7,7 +7,7 @@
   - need let import-line at the top of file .js
   - need using LIVE SERVER to load the import/export ?????????? WHY ???????? WHY NOT with opened normal. 
 */
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart,calculateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -90,15 +90,11 @@ function notifyWhenAdded(productId){
 }
 
 function updateCartQuantity(){
-  let cartQuantity = 0;
-
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+  let cartQuantity = calculateCartQuantity();
 
   document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity;
-}
+};
 
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
